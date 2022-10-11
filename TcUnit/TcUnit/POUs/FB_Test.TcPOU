@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="FB_Test" Id="{a51e9086-33ec-4162-acad-93a76961e893}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block holds all data that defines a test.
@@ -71,6 +71,16 @@ METHOD INTERNAL GetTestOrder : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachT
       <Declaration><![CDATA[METHOD INTERNAL IsSkipped : BOOL]]></Declaration>
       <Implementation>
         <ST><![CDATA[IsSkipped := TestIsSkipped;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetTest" Id="{e281d3d6-134a-4b52-9d17-a911235d8e0a}">
+      <Declaration><![CDATA[METHOD INTERNAL ResetTest
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TestIsFinished 	:= FALSE;
+TestIsSkipped	:= FALSE;
+TestIsFailed	:= FALSE;
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetAssertionMessage" Id="{05091715-93d7-47f7-9b6c-cb2511f88eb7}">
