@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="FB_TestResults" Id="{dcfade2b-3801-4064-9466-67a7a848e8d0}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block holds results of the complete test run, i.e. results for all test suites *)
 FUNCTION_BLOCK FB_TestResults IMPLEMENTS I_TestResults
@@ -115,6 +115,22 @@ METHOD PUBLIC GetAreTestResultsAvailable : BOOL]]></Declaration>
       <Declaration><![CDATA[METHOD PUBLIC GetTestSuiteResults : REFERENCE TO ST_TestSuiteResults;]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetTestSuiteResults REF=TestSuiteResults;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetTestResult" Id="{785b1a16-cc1c-4870-a3cd-6e28d350b720}">
+      <Declaration><![CDATA[METHOD ResetTestResult
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TestSuiteResults.NumberOfTestSuites				:= 0;
+TestSuiteResults.NumberOfTestCases				:= 0;
+TestSuiteResults.NumberOfSuccessfulTestCases	:= 0;
+TestSuiteResults.NumberOfFailedTestCases		:= 0;
+
+StoringTestSuiteResultNumber	:= 1;
+StoredTestSuiteResults			:= FALSE;
+StoredGeneralTestResults		:= FALSE;
+
+]]></ST>
       </Implementation>
     </Method>
   </POU>
