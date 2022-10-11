@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="IS_ALL_FINISHED" Id="{9ca4f606-3466-47c8-b88b-dc63180080b3}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+	Check if all test suites are finished.
+*)
+FUNCTION IS_ALL_FINISHED : BOOL
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IS_ALL_FINISHED :=		GVL_TcUnit.TcUnitRunner.AllTestSuitesFinished
+					AND GVL_TcUnit.TcUnitRunner.TestResults.StoredGeneralTestResults;
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="RERUN_RESET" Id="{5dc2831b-033e-4286-8fb6-238cd06ec5b3}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This function resets all test suites that have been initialized.
+*)
+FUNCTION RERUN_RESET
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[GVL_TcUnit.TcUnitRunner.ResetTcUnitRunner();
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
