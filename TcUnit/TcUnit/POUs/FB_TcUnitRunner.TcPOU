@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="FB_TcUnitRunner" Id="{857e16d6-a26c-468a-935e-aa7317c263b9}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for holding track of the tests and executing them.
@@ -34,6 +34,40 @@ END_VAR]]></Declaration>
 METHOD INTERNAL AbortRunningTestSuiteTests]]></Declaration>
       <Implementation>
         <ST><![CDATA[AbortRunningTestSuites := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetAllTestSuitesFinished" Id="{d5b909d6-379d-46c9-8893-6a065cf404b7}">
+      <Declaration><![CDATA[METHOD GetAllTestSuitesFinished : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetAllTestSuitesFinished := AllTestSuitesFinished;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetTcUnitRunner" Id="{4d9b928d-c4b7-425e-9046-83dc72dd6e94}">
+      <Declaration><![CDATA[(* Resets the test suites and reports *)
+METHOD INTERNAL ResetTcUnitRunner
+VAR
+    Counter	: UINT := 0;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[(* Reset test suites, which resets tests. *)
+IF AllTestSuitesFinished THEN
+	AllTestSuitesFinished := FALSE;
+	
+	FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
+		GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[Counter];
+		GVL_TcUnit.CurrentTestSuiteBeingCalled^.ResetTestSuite();
+		
+		GVL_TcUnit.CurrentlyRunningOrderedTestInTestSuite[Counter] := 1;
+	END_FOR
+
+	(* Reset reports *)
+	TestResults.ResetTestResult();
+	TestResultLogger.ResetTestResultLogger();
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="RunTestSuiteTests" Id="{d333e6c4-a1da-4b5b-91b3-4b4808e6c299}">
